@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "173535158522",
+    "project_id": "ektp-rumpin",
+    "storage_bucket": "ektp-rumpin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173535158522:android:932a450c2af41210c8a943",
+        "android_client_info": {
+          "package_name": "com.example.ektp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173535158522-a4lp7v6ijptpuls91qa69jpkgtah8odi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2TqQmwQlFoR4rj7BzUCcImCbTGZ55h6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173535158522-a4lp7v6ijptpuls91qa69jpkgtah8odi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
