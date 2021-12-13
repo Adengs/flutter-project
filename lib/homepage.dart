@@ -1,9 +1,7 @@
 import 'package:ektp/informasi.dart';
 import 'package:ektp/login_admin.dart';
 import 'package:ektp/pilih_jadwal.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -61,7 +59,6 @@ class HomePage extends StatelessWidget {
                     margin: EdgeInsets.only(top: 10, bottom: 0),
                     height: MediaQuery.of(context).size.height * 0.23,
                     decoration: BoxDecoration(
-                      
                       boxShadow: [
                         BoxShadow(
                           color: Colors.green,

@@ -70,7 +70,7 @@ class _BottomSheet1State extends State<BottomSheet1> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Container(
         padding: MediaQuery.of(context).viewInsets,
-        height: MediaQuery.of(context).size.height * 0.73,
+        height: MediaQuery.of(context).size.height * 0.60,
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -237,7 +237,7 @@ class _BottomSheet1State extends State<BottomSheet1> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 15),
                   child: Center(
                     child: ElevatedButton(
                       child: Text("Simpan"),
