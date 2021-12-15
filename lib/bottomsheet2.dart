@@ -83,15 +83,6 @@ class _BottomSheet2State extends State<BottomSheet2> {
 
   @override
   Widget build(BuildContext context) {
-    // return FutureBuilder<DocumentSnapshot>(
-    //     future: getData(),
-    //     builder: (context, snapshot) {
-    //       if (snapshot.hasData) {
-    //         Map<String, dynamic> data =
-    //             snapshot.data!.data() as Map<String, dynamic>;
-    //         namaController.text = data['nama'];
-    //         nikController.text = data['nik'];
-    //         desaController.text = data['desa'];
     return Container(
       // height: MediaQuery.of(context).size.height * 0.73,
       padding: MediaQuery.of(context).viewInsets,
@@ -247,8 +238,5 @@ class _BottomSheet2State extends State<BottomSheet2> {
         ),
       ),
     );
-    //   } else {}
-    //   return Center(child: CircularProgressIndicator());
-    // });
   }
 }

@@ -1,5 +1,4 @@
 import 'package:ektp/homepage.dart';
-// import 'package:ektp/login_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ektp/kelola_data.dart';
@@ -78,7 +77,6 @@ class HalamanAdmin extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      // margin: EdgeInsets.only(bottom: 20),
                       child: Text(
                           '"Silahkan tonton video dibawah ini untuk mengetahui \ncara menggunakan Aplikasi"',
                           style: TextStyle(
@@ -98,10 +96,6 @@ class HalamanAdmin extends StatelessWidget {
                         },
                       ),
                     ),
-                    // Container(
-                    //   margin: EdgeInsets.only(bottom: 20),
-                    //   child: Text("Panduan Aplikasi Admin"),
-                    // ),
                   ],
                 ),
               ),
