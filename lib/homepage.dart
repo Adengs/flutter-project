@@ -182,7 +182,7 @@ class HomePage extends StatelessWidget {
                       icon: Icon(FontAwesomeIcons.youtube, color: Colors.red),
                       iconSize: 35,
                       onPressed: () async {
-                        await openUrl("https://youtu.be/PHA9wKFPUmo",
+                        await openUrl("https://youtu.be/OXlPi6j_Wf0",
                             forceWebView: false, enableJavaScript: true);
                       },
                     ),

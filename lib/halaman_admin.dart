@@ -21,7 +21,7 @@ Future<void> logout(BuildContext context) async {
 
   await FirebaseAuth.instance.signOut();
   Navigator.of(context)
-      .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+      .pop(MaterialPageRoute(builder: (context) => HomePage()));
 }
 
 class HalamanAdmin extends StatelessWidget {
@@ -93,7 +93,7 @@ class HalamanAdmin extends StatelessWidget {
                               image: AssetImage("images/yt.jpg"))),
                       child: GestureDetector(
                         onTap: () async {
-                          await openUrl("https://youtu.be/PHA9wKFPUmo",
+                          await openUrl("https://youtu.be/ih-fD_6_bW8",
                               forceWebView: false, enableJavaScript: true);
                         },
                       ),
