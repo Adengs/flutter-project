@@ -33,30 +33,16 @@ class _BottomSheet2State extends State<BottomSheet2> {
     }
   }
 
-  Future<DocumentSnapshot> getData() async {
+  Future<void> getData() async {
     final DocumentReference docRef =
         firestore.collection(widget.tgl).doc(widget.isi);
-    // Map<String, dynamic> data =
-    //             docRef.path.data() as Map<String, dynamic>;
-    //         namaController.text = data['nama'];
-    //         nikController.text = data['nik'];
-    //         desaController.text = data['desa'];
 
-    return docRef.get();
+    var data = await docRef.get();
+
+    namaController.text = (data.data() as Map<String, dynamic>)['nama'];
+    nikController.text = (data.data() as Map<String, dynamic>)['nik'];
+    desaController.text = (data.data() as Map<String, dynamic>)['desa'];
   }
-
-  // Future<DocumentSnapshot>(
-  //       future: getData(),
-  //       builder: (context, snapshot) {
-  //         if (snapshot.hasData) {
-  //           Map<String, dynamic> data =
-  //               snapshot.data!.data() as Map<String, dynamic>;
-  //           namaController.text = data['nama'];
-  //           nikController.text = data['nik'];
-  //           desaController.text = data['desa'];
-  //   }else {}
-  //   return Center(child: CircularProgressIndicator());
-  // });
 
   Future<void> editD() async {
     DocumentReference docData =
@@ -90,175 +76,179 @@ class _BottomSheet2State extends State<BottomSheet2> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<DocumentSnapshot>(
-        future: getData(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
-            namaController.text = data['nama'];
-            nikController.text = data['nik'];
-            desaController.text = data['desa'];
-            return Container(
-              // height: MediaQuery.of(context).size.height * 0.73,
-              padding: MediaQuery.of(context).viewInsets,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(right: 5),
-                          child: IconButton(
-                              icon: Icon(Icons.close_rounded, size: 22),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              }),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Text(
-                        "Ubah data Pemohon E-KTP",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Divider(),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 10, 20, 5),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              "NIK",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: Theme(
-                                child: TextFormField(
-                                  keyboardType: TextInputType.visiblePassword,
-                                  controller: nikController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(10),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
-                                ),
-                                data: ThemeData().copyWith(
-                                  colorScheme: ThemeData()
-                                      .colorScheme
-                                      .copyWith(primary: Colors.green[800]),
-                                )),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              "Nama",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: Theme(
-                                child: TextFormField(
-                                  textCapitalization:
-                                      TextCapitalization.characters,
-                                  controller: namaController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(10),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
-                                ),
-                                data: ThemeData().copyWith(
-                                  colorScheme: ThemeData()
-                                      .colorScheme
-                                      .copyWith(primary: Colors.green[800]),
-                                )),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              "Desa",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: Theme(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.words,
-                                  controller: desaController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(10),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
-                                ),
-                                data: ThemeData().copyWith(
-                                  colorScheme: ThemeData()
-                                      .colorScheme
-                                      .copyWith(primary: Colors.green[800]),
-                                )),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(10, 0, 10, 15),
-                      child: Center(
-                        child: ElevatedButton(
-                          child: Text("Simpan"),
-                          onPressed: () {
-                            editD();
+  void initState() {
+    super.initState();
+    getData();
+  }
 
-                            setState(() {
-                              // FocusScope.of(context).unfocus();
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green[800],
-                            padding: EdgeInsets.all(5),
-                            textStyle: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w400),
+  @override
+  Widget build(BuildContext context) {
+    // return FutureBuilder<DocumentSnapshot>(
+    //     future: getData(),
+    //     builder: (context, snapshot) {
+    //       if (snapshot.hasData) {
+    //         Map<String, dynamic> data =
+    //             snapshot.data!.data() as Map<String, dynamic>;
+    //         namaController.text = data['nama'];
+    //         nikController.text = data['nik'];
+    //         desaController.text = data['desa'];
+    return Container(
+      // height: MediaQuery.of(context).size.height * 0.73,
+      padding: MediaQuery.of(context).viewInsets,
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(right: 5),
+                  child: IconButton(
+                      icon: Icon(Icons.close_rounded, size: 22),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
+                ),
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: Text(
+                "Ubah data Pemohon E-KTP",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Divider(),
+            Container(
+              margin: EdgeInsets.fromLTRB(20, 10, 20, 5),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      "NIK",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Theme(
+                        child: TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
+                          controller: nikController,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
                           ),
                         ),
-                      ),
+                        data: ThemeData().copyWith(
+                          colorScheme: ThemeData()
+                              .colorScheme
+                              .copyWith(primary: Colors.green[800]),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      "Nama",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
-                  ],
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Theme(
+                        child: TextFormField(
+                          textCapitalization: TextCapitalization.characters,
+                          controller: namaController,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                        data: ThemeData().copyWith(
+                          colorScheme: ThemeData()
+                              .colorScheme
+                              .copyWith(primary: Colors.green[800]),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      "Desa",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Theme(
+                        child: TextFormField(
+                          textCapitalization: TextCapitalization.words,
+                          controller: desaController,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                        data: ThemeData().copyWith(
+                          colorScheme: ThemeData()
+                              .colorScheme
+                              .copyWith(primary: Colors.green[800]),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(10, 0, 10, 15),
+              child: Center(
+                child: ElevatedButton(
+                  child: Text("Simpan"),
+                  onPressed: () {
+                    editD();
+
+                    setState(() {
+                      // FocusScope.of(context).unfocus();
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green[800],
+                    padding: EdgeInsets.all(5),
+                    textStyle:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                  ),
                 ),
               ),
-            );
-          } else {}
-          return Center(child: CircularProgressIndicator());
-        });
+            ),
+          ],
+        ),
+      ),
+    );
+    //   } else {}
+    //   return Center(child: CircularProgressIndicator());
+    // });
   }
 }
