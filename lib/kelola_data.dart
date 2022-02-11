@@ -108,7 +108,10 @@ class _KelolaDataState extends State<KelolaData> {
         appBar: AppBar(
           backgroundColor: Colors.green[800],
           centerTitle: true,
-          title: Text("Kelola Data"),
+          title: Text(
+            "Kelola Data",
+            style: TextStyle(fontSize: 18),
+          ),
         ),
         backgroundColor: Colors.green[50],
         body: ListView(
@@ -122,7 +125,7 @@ class _KelolaDataState extends State<KelolaData> {
                 child: Center(
                   child: Text(
                     "Kelola Data Pemohon E-KTP",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -145,7 +148,7 @@ class _KelolaDataState extends State<KelolaData> {
                             child: Text(
                               "Tanggal",
                               style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
+                                  fontSize: 14, fontWeight: FontWeight.bold),
                             ),
                           ),
                           Expanded(
@@ -172,6 +175,7 @@ class _KelolaDataState extends State<KelolaData> {
                                     ),
                                     contentPadding: EdgeInsets.all(10),
                                     hintText: getText(),
+                                    hintStyle: TextStyle(fontSize: 13),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(5),
                                     ),
@@ -193,12 +197,13 @@ class _KelolaDataState extends State<KelolaData> {
                         children: [
                           Text(
                             'Note : ',
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(fontSize: 10),
                           ),
                           Text(
                             'Silahkan pilih tanggal untuk menampilkan data pemohon',
                             style: TextStyle(
-                                fontSize: 12, fontStyle: FontStyle.italic),
+                                fontSize: 10, fontStyle: FontStyle.italic),
+                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -267,17 +272,25 @@ class _KelolaDataState extends State<KelolaData> {
                                   title: Container(
                                       margin: EdgeInsets.only(bottom: 5),
                                       child: Text(
-                                          '${(data[index].data() as Map<String, dynamic>)['nama']} ')),
+                                        '${(data[index].data() as Map<String, dynamic>)['nama']}',
+                                        style: TextStyle(fontSize: 14),
+                                      )),
                                   subtitle: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                          'NIK : ${(data[index].data() as Map<String, dynamic>)['nik']}'),
+                                        'NIK : ${(data[index].data() as Map<String, dynamic>)['nik']}',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
                                       Text(
-                                          'Tanggal : ${(data[index].data() as Map<String, dynamic>)['tanggal']} '),
+                                        'Tanggal : ${(data[index].data() as Map<String, dynamic>)['tanggal']}',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
                                       Text(
-                                          'Desa : ${(data[index].data() as Map<String, dynamic>)['desa']}'),
+                                        'Desa : ${(data[index].data() as Map<String, dynamic>)['desa']}',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
                                     ],
                                   ),
                                   trailing: IconButton(

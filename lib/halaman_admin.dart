@@ -42,7 +42,10 @@ class HalamanAdmin extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: Colors.green[800],
           centerTitle: true,
-          title: Text("Halaman Admin"),
+          title: Text(
+            "Halaman Admin",
+            style: TextStyle(fontSize: 18),
+          ),
         ),
         backgroundColor: Colors.green[50],
         body: ListView(
@@ -112,7 +115,7 @@ class HalamanAdmin extends StatelessWidget {
                       child: Text(
                         "     Kelola Data Pemohon E-KTP",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500),
+                            fontSize: 16, fontWeight: FontWeight.w500),
                         maxLines: 1,
                       ),
                     ),
@@ -143,7 +146,7 @@ class HalamanAdmin extends StatelessWidget {
                       child: Text(
                         "     Kelola Jadwal",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500),
+                            fontSize: 16, fontWeight: FontWeight.w500),
                         maxLines: 1,
                       ),
                     ),

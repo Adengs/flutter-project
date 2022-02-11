@@ -119,6 +119,7 @@ class _BottomSheet1State extends State<BottomSheet1> {
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(10),
                                 hintText: "Masukan 6 angka terakhir NIK",
+                                hintStyle: TextStyle(fontSize: 13),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -167,6 +168,7 @@ class _BottomSheet1State extends State<BottomSheet1> {
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(10),
                                 hintText: "Masukan Nama",
+                                hintStyle: TextStyle(fontSize: 13),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -212,6 +214,7 @@ class _BottomSheet1State extends State<BottomSheet1> {
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(10),
                                 hintText: "Masukan Nama Desa",
+                                hintStyle: TextStyle(fontSize: 13),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -252,7 +255,7 @@ class _BottomSheet1State extends State<BottomSheet1> {
                         primary: Colors.green[800],
                         padding: EdgeInsets.all(5),
                         textStyle: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w400),
+                            fontSize: 14, fontWeight: FontWeight.w400),
                       ),
                     ),
                   ),

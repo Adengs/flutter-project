@@ -20,7 +20,10 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.green[800],
         centerTitle: true,
-        title: Text("E-KTP RUMPIN"),
+        title: Text(
+          "E-KTP RUMPIN",
+          style: TextStyle(fontSize: 18),
+        ),
         actions: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +52,7 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           //Card kata sambutan dan logo
           Card(
-            margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
+            margin: EdgeInsets.fromLTRB(10, 15, 10, 10),
             elevation: 5,
             shadowColor: Colors.black,
             child: SizedBox(
@@ -57,7 +60,7 @@ class HomePage extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 10, bottom: 0),
-                    height: MediaQuery.of(context).size.height * 0.23,
+                    height: MediaQuery.of(context).size.height * 0.27,
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -76,7 +79,7 @@ class HomePage extends StatelessWidget {
                       "Selamat Datang",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 17,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -87,7 +90,7 @@ class HomePage extends StatelessWidget {
                       "Aplikasi ini diperuntukan untuk melakukan penjadwalan perekaman E-KTP di Kecamatan Rumpin",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 13,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -110,7 +113,8 @@ class HomePage extends StatelessWidget {
                     child: Text(
                       "     Persyaratan Pembuatan E-KTP",
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      maxLines: 1,
                     ),
                   ),
                   IconButton(
@@ -141,7 +145,7 @@ class HomePage extends StatelessWidget {
                     child: Text(
                       "     Pilih Jadwal Perekaman",
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                       maxLines: 1,
                     ),
                   ),
@@ -173,7 +177,7 @@ class HomePage extends StatelessWidget {
                     child: Text(
                       "     Cara Mengatur Jadwal",
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
                   Container(

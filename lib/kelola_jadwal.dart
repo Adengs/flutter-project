@@ -81,7 +81,10 @@ class _KelolaJadwalState extends State<KelolaJadwal> {
         appBar: AppBar(
           backgroundColor: Colors.green[800],
           centerTitle: true,
-          title: Text("Kelola Jadwal"),
+          title: Text(
+            "Kelola Jadwal",
+            style: TextStyle(fontSize: 18),
+          ),
         ),
         backgroundColor: Colors.green[50],
         body: ListView(
@@ -100,7 +103,7 @@ class _KelolaJadwalState extends State<KelolaJadwal> {
                         child: Text(
                           "Pilih tanggal libur",
                           style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w600),
+                              fontSize: 15, fontWeight: FontWeight.w600),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -110,7 +113,7 @@ class _KelolaJadwalState extends State<KelolaJadwal> {
                           '"Silahkan pilih tanggal untuk menentukan libur pada hari tertentu (selain sabtu dan minggu)."',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 12, fontStyle: FontStyle.italic),
+                              fontSize: 11, fontStyle: FontStyle.italic),
                         ),
                       ),
                     ],
@@ -166,6 +169,7 @@ class _KelolaJadwalState extends State<KelolaJadwal> {
                                     ),
                                     contentPadding: EdgeInsets.all(10),
                                     hintText: getText(),
+                                    hintStyle: TextStyle(fontSize: 13),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(5),
                                     ),

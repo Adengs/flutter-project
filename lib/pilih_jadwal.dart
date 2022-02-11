@@ -76,13 +76,16 @@ class _PilihJadwalState extends State<PilihJadwal> {
         appBar: AppBar(
           backgroundColor: Colors.green[800],
           centerTitle: true,
-          title: Text("E-KTP RUMPIN"),
+          title: Text(
+            "E-KTP RUMPIN",
+            style: TextStyle(fontSize: 18),
+          ),
         ),
         backgroundColor: Colors.green[50],
         body: ListView(
           children: <Widget>[
             Card(
-              margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+              margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
               elevation: 5,
               shadowColor: Colors.black,
               child: SizedBox(
@@ -90,14 +93,14 @@ class _PilihJadwalState extends State<PilihJadwal> {
                 child: Center(
                   child: Text(
                     "Pilih Jadwan Perekaman E-KTP",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.center,
                   ),
                 ),
               ),
             ),
             Card(
-              margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+              margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
               elevation: 5,
               shadowColor: Colors.black,
               child: SizedBox(
@@ -114,7 +117,7 @@ class _PilihJadwalState extends State<PilihJadwal> {
                               child: Text(
                                 "NIK",
                                 style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
+                                    fontSize: 14, fontWeight: FontWeight.bold),
                               ),
                             ),
                             Expanded(
@@ -126,6 +129,7 @@ class _PilihJadwalState extends State<PilihJadwal> {
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(10),
                                       hintText: "Masukan 6 angka tereakhir NIK",
+                                      hintStyle: TextStyle(fontSize: 13),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -161,7 +165,7 @@ class _PilihJadwalState extends State<PilihJadwal> {
                               child: Text(
                                 "Nama",
                                 style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
+                                    fontSize: 14, fontWeight: FontWeight.bold),
                               ),
                             ),
                             Expanded(
@@ -174,6 +178,7 @@ class _PilihJadwalState extends State<PilihJadwal> {
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(10),
                                       hintText: "Masukan Nama",
+                                      hintStyle: TextStyle(fontSize: 13),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -206,7 +211,7 @@ class _PilihJadwalState extends State<PilihJadwal> {
                               child: Text(
                                 "Tanggal",
                                 style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
+                                    fontSize: 14, fontWeight: FontWeight.bold),
                               ),
                             ),
                             Expanded(
@@ -247,6 +252,7 @@ class _PilihJadwalState extends State<PilihJadwal> {
                                       ),
                                       contentPadding: EdgeInsets.all(10),
                                       hintText: getText(),
+                                      hintStyle: TextStyle(fontSize: 13),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -270,7 +276,7 @@ class _PilihJadwalState extends State<PilihJadwal> {
                               child: Text(
                                 " ",
                                 style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
+                                    fontSize: 14, fontWeight: FontWeight.bold),
                               ),
                             ),
                             Expanded(
@@ -279,8 +285,7 @@ class _PilihJadwalState extends State<PilihJadwal> {
                                 child: Text(
                                   ' Sabtu dan minggu (S & M) kantor kecamatan libur/tutup.',
                                   style: TextStyle(
-                                      fontSize: 10,
-                                      fontStyle: FontStyle.italic),
+                                      fontSize: 9, fontStyle: FontStyle.italic),
                                 ),
                               ),
                             ),
@@ -309,6 +314,7 @@ class _PilihJadwalState extends State<PilihJadwal> {
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(10),
                                       hintText: "Masukan Nama Desa",
+                                      hintStyle: TextStyle(fontSize: 13),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -393,108 +399,118 @@ class _PilihJadwalState extends State<PilihJadwal> {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        Map<String, dynamic> data =
-                            snapshot.data!.data() as Map<String, dynamic>;
-                        return Card(
-                          margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
-                          elevation: 5,
-                          shadowColor: Colors.black,
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(20, 20, 20, 15),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.black),
-                              ),
-                              padding: EdgeInsets.all(10),
-                              child: Column(children: <Widget>[
-                                Text(
-                                  "JADWAL PEREKAMAN E-KTP",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Divider(),
-                                Table(
-                                  columnWidths: {
-                                    0: FlexColumnWidth(2),
-                                    1: FlexColumnWidth(2),
-                                    2: FlexColumnWidth(1),
-                                    3: FlexColumnWidth(4),
-                                  },
-                                  children: [
-                                    TableRow(children: [
-                                      TableCell(child: Text(" ")),
-                                      TableCell(child: Text("Nama")),
-                                      TableCell(child: Text(":")),
-                                      TableCell(child: Text("${data['nama']}")),
-                                      TableCell(child: Text(" ")),
-                                    ]),
-                                    TableRow(children: [
-                                      TableCell(child: Text(" ")),
-                                      TableCell(child: Text("NIK")),
-                                      TableCell(child: Text(":")),
-                                      TableCell(
-                                        child: Text(
-                                          "${data['nik']}",
-                                          maxLines: 1,
+                        var data = snapshot.data!.data();
+                        return data == null
+                            ? Container()
+                            : Card(
+                                margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+                                elevation: 5,
+                                shadowColor: Colors.black,
+                                child: Container(
+                                  padding: EdgeInsets.fromLTRB(20, 20, 20, 15),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(color: Colors.black),
+                                    ),
+                                    padding: EdgeInsets.all(10),
+                                    child: Column(children: <Widget>[
+                                      Text(
+                                        "JADWAL PEREKAMAN E-KTP",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Divider(),
+                                      Table(
+                                        columnWidths: {
+                                          0: FlexColumnWidth(2),
+                                          1: FlexColumnWidth(2),
+                                          2: FlexColumnWidth(1),
+                                          3: FlexColumnWidth(4),
+                                        },
+                                        children: [
+                                          TableRow(children: [
+                                            TableCell(child: Text(" ")),
+                                            TableCell(child: Text("Nama")),
+                                            TableCell(child: Text(":")),
+                                            TableCell(
+                                                child: Text(
+                                                    "${(data as Map<String, dynamic>)['nama']}")),
+                                            TableCell(child: Text(" ")),
+                                          ]),
+                                          TableRow(children: [
+                                            TableCell(child: Text(" ")),
+                                            TableCell(child: Text("NIK")),
+                                            TableCell(child: Text(":")),
+                                            TableCell(
+                                              child: Text(
+                                                "${data['nik']}",
+                                                maxLines: 1,
+                                              ),
+                                            ),
+                                            TableCell(child: Text(" ")),
+                                          ]),
+                                          TableRow(children: [
+                                            TableCell(child: Text(" ")),
+                                            TableCell(child: Text("Tanggal")),
+                                            TableCell(child: Text(":")),
+                                            TableCell(
+                                                child: Text(
+                                                    "${data['tanggal']}",
+                                                    maxLines: 1)),
+                                            TableCell(child: Text(" ")),
+                                          ]),
+                                          TableRow(children: [
+                                            TableCell(child: Text(" ")),
+                                            TableCell(child: Text("Desa")),
+                                            TableCell(child: Text(":")),
+                                            TableCell(
+                                                child: Text("${data['desa']}")),
+                                            TableCell(child: Text(" ")),
+                                          ]),
+                                        ],
+                                      ),
+                                      Divider(),
+                                      Text(
+                                        "Silahkan screenshot halaman ini sebagai bukti untuk ditunjukan ke petugas.",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 11,
                                         ),
                                       ),
-                                      TableCell(child: Text(" ")),
-                                    ]),
-                                    TableRow(children: [
-                                      TableCell(child: Text(" ")),
-                                      TableCell(child: Text("Tanggal")),
-                                      TableCell(child: Text(":")),
-                                      TableCell(
-                                          child: Text("${data['tanggal']}",
-                                              maxLines: 1)),
-                                      TableCell(child: Text(" ")),
-                                    ]),
-                                    TableRow(children: [
-                                      TableCell(child: Text(" ")),
-                                      TableCell(child: Text("Desa")),
-                                      TableCell(child: Text(":")),
-                                      TableCell(child: Text("${data['desa']}")),
-                                      TableCell(child: Text(" ")),
-                                    ]),
-                                  ],
-                                ),
-                                Divider(),
-                                Text(
-                                  "Silahkan screenshot halaman ini sebagai bukti untuk ditunjukan ke petugas.",
-                                  textAlign: TextAlign.center,
-                                ),
-                                Divider(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "PENTING !! ",
-                                    ),
-                                    Text(
-                                      "Datang sebelum pukul 07.30 agar dapat cepat di proses,",
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                      Divider(),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "PENTING !! ",
+                                          ),
+                                          Text(
+                                            "Datang sebelum pukul 07.30 agar dapat cepat di proses,",
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                          Text(
+                                            "karena sewaktu-waktu server pusat (Kabupaten) bisa offline.",
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Dan jangan lupa lengkapi persyaratan perekaman E-KTP.",
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    Text(
-                                      "karena sewaktu-waktu server pusat (Kabupaten) bisa offline.",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Dan jangan lupa lengkapi persyaratan perekaman E-KTP.",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
+                                    ]),
+                                  ),
                                 ),
-                              ]),
-                            ),
-                          ),
-                        );
+                              );
                       } else {
                         return Text('Loading . . .',
                             textAlign: TextAlign.center);
