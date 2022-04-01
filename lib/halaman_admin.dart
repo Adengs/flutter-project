@@ -2,7 +2,7 @@ import 'package:ektp/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ektp/kelola_data.dart';
-import 'package:ektp/kelola_jadwal.dart';
+import 'package:ektp/data_false.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -51,7 +51,7 @@ class HalamanAdmin extends StatelessWidget {
         body: ListView(
           children: <Widget>[
             Card(
-              margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
               elevation: 5,
               shadowColor: Colors.black,
               child: SizedBox(
@@ -59,7 +59,7 @@ class HalamanAdmin extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.all(10),
-                      height: MediaQuery.of(context).size.height * 0.13,
+                      height: MediaQuery.of(context).size.height * 0.14,
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -88,7 +88,7 @@ class HalamanAdmin extends StatelessWidget {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 20, right: 20),
-                      height: MediaQuery.of(context).size.height * 0.35,
+                      height: MediaQuery.of(context).size.height * 0.32,
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage("images/yt.jpg"))),
@@ -104,11 +104,42 @@ class HalamanAdmin extends StatelessWidget {
               ),
             ),
             Card(
-              margin: EdgeInsets.fromLTRB(10, 3, 10, 10),
+              margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
               elevation: 5,
               shadowColor: Colors.black,
               child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.11,
+                height: MediaQuery.of(context).size.height * 0.12,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        "     Data Belum Disetujui",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                        maxLines: 1,
+                      ),
+                    ),
+                    IconButton(
+                      color: Colors.green[800],
+                      icon: Icon(Icons.navigate_next_rounded),
+                      iconSize: 60,
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return DataFalse();
+                        }));
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+              elevation: 5,
+              shadowColor: Colors.black,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.12,
                 child: Row(
                   children: <Widget>[
                     Expanded(
@@ -134,37 +165,37 @@ class HalamanAdmin extends StatelessWidget {
                 ),
               ),
             ),
-            Card(
-              margin: EdgeInsets.fromLTRB(10, 3, 10, 10),
-              elevation: 5,
-              shadowColor: Colors.black,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.11,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        "     Kelola Jadwal",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500),
-                        maxLines: 1,
-                      ),
-                    ),
-                    IconButton(
-                      color: Colors.green[800],
-                      icon: Icon(Icons.navigate_next_rounded),
-                      iconSize: 60,
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return KelolaJadwal();
-                        }));
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // Card(
+            //   margin: EdgeInsets.fromLTRB(10, 3, 10, 10),
+            //   elevation: 5,
+            //   shadowColor: Colors.black,
+            //   child: SizedBox(
+            //     height: MediaQuery.of(context).size.height * 0.10,
+            //     child: Row(
+            //       children: <Widget>[
+            //         Expanded(
+            //           child: Text(
+            //             "     Kelola Jadwal",
+            //             style: TextStyle(
+            //                 fontSize: 16, fontWeight: FontWeight.w500),
+            //             maxLines: 1,
+            //           ),
+            //         ),
+            //         IconButton(
+            //           color: Colors.green[800],
+            //           icon: Icon(Icons.navigate_next_rounded),
+            //           iconSize: 50,
+            //           onPressed: () {
+            //             Navigator.push(context,
+            //                 MaterialPageRoute(builder: (context) {
+            //               return KelolaJadwal();
+            //             }));
+            //           },
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

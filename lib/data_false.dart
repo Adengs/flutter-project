@@ -1,21 +1,16 @@
-import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ektp/bottomsheet2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-class KelolaData extends StatefulWidget {
+FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+class DataFalse extends StatefulWidget {
   @override
-  _KelolaDataState createState() => _KelolaDataState();
+  _DataFalseState createState() => _DataFalseState();
 }
 
-class _KelolaDataState extends State<KelolaData> {
+class _DataFalseState extends State<DataFalse> {
   DateTime? tanggal;
 
   String getText() {
@@ -28,79 +23,31 @@ class _KelolaDataState extends State<KelolaData> {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<void> createPdf() async {
-    final snapshot = await firestore
-        .collection(getText())
-        .where('approve', isEqualTo: true)
-        .get();
-    List<List<dynamic>> newList =
-        snapshot.docs.map((DocumentSnapshot documentSnapshot) {
-      return [
-        (documentSnapshot.data() as Map<String, dynamic>)['nama'].toString(),
-        (documentSnapshot.data() as Map<String, dynamic>)['nik'].toString(),
-        (documentSnapshot.data() as Map<String, dynamic>)['tanggal'].toString(),
-        (documentSnapshot.data() as Map<String, dynamic>)['desa'].toString(),
-      ];
-    }).toList();
-
-    //buat class pdf
-    final pdf = pw.Document();
-
-    final headers = ['Nama', 'NIK', 'Tanggal', 'Desa'];
-
-    //buat pages
-    pdf.addPage(pw.MultiPage(
-        pageFormat: PdfPageFormat.a4,
-        build: (pw.Context context) {
-          return [
-            //judul
-            pw.Container(
-                width: double.infinity,
-                child: pw.Column(
-                  crossAxisAlignment: pw.CrossAxisAlignment.center,
-                  children: [
-                    pw.Text("DATA PEREKAM E-KTP TANGGAL ${getText()}\n\n",
-                        textAlign: pw.TextAlign.center,
-                        style: pw.TextStyle(
-                            fontSize: 14, fontWeight: pw.FontWeight.bold)),
-                  ],
-                )),
-            //table
-            pw.Container(
-                width: double.infinity,
-                child: pw.Column(
-                    crossAxisAlignment: pw.CrossAxisAlignment.center,
-                    children: [
-                      pw.Table.fromTextArray(
-                        headers: headers,
-                        data: newList,
-                        cellAlignment: pw.Alignment.center,
-                        headerDecoration:
-                            pw.BoxDecoration(color: PdfColors.blue100),
-                      ),
-                    ])),
-          ];
-
-          // Center
+  @override
+  void initState() {
+    //terminated
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      if (message != null) {
+        print(message.notification!.title);
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return DataFalse();
         }));
+      }
+    });
 
-    //simpan
-    Uint8List bytes = await pdf.save();
+    //background
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {});
 
-    //buat file kosong di direktori
-    final dir = await getApplicationDocumentsDirectory();
-    final file =
-        File('${dir.path}/Data Perekam E-KTP tanggal ${getText()}.pdf');
+    //foreground
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.notification != null) {
+        print(
+            'Message also contained a notification: ${message.notification!.title}');
+      }
+    });
 
-    //timpa file kosong
-    await file.writeAsBytes(bytes);
-
-    //open pdf
-    await OpenFile.open(file.path);
+    super.initState();
   }
-
-  String? isi;
-  String? tgl;
 
   @override
   Widget build(BuildContext context) {
@@ -111,28 +58,13 @@ class _KelolaDataState extends State<KelolaData> {
           backgroundColor: Colors.green[800],
           centerTitle: true,
           title: Text(
-            "Kelola Data",
+            "Data Belum Disetujui",
             style: TextStyle(fontSize: 18),
           ),
         ),
         backgroundColor: Colors.green[50],
         body: ListView(
-          children: <Widget>[
-            Card(
-              margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              elevation: 5,
-              shadowColor: Colors.black,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.08,
-                child: Center(
-                  child: Text(
-                    "Kelola Data Pemohon E-KTP",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ),
+          children: [
             Card(
               margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
               elevation: 5,
@@ -193,7 +125,7 @@ class _KelolaDataState extends State<KelolaData> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.fromLTRB(20, 10, 20, 5),
+                      margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -210,28 +142,28 @@ class _KelolaDataState extends State<KelolaData> {
                         ],
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        createPdf();
-                        setState(() {
-                          FocusScope.of(context).unfocus();
-                        });
-                      },
-                      child: Card(
-                        margin: EdgeInsets.fromLTRB(15, 10, 15, 20),
-                        elevation: 5,
-                        shadowColor: Colors.black,
-                        color: Colors.green[800],
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          child: Center(
-                            child: Icon(Icons.picture_as_pdf_outlined,
-                                color: Colors.white, size: 30),
-                          ),
-                          // ),
-                        ),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     createPdf();
+                    //     setState(() {
+                    //       FocusScope.of(context).unfocus();
+                    //     });
+                    //   },
+                    //   child: Card(
+                    //     margin: EdgeInsets.fromLTRB(15, 10, 15, 20),
+                    //     elevation: 5,
+                    //     shadowColor: Colors.black,
+                    //     color: Colors.green[800],
+                    //     child: Container(
+                    //       margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    //       child: Center(
+                    //         child: Icon(Icons.picture_as_pdf_outlined,
+                    //             color: Colors.white, size: 30),
+                    //       ),
+                    //       // ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -241,7 +173,7 @@ class _KelolaDataState extends State<KelolaData> {
                 : StreamBuilder<QuerySnapshot>(
                     stream: firestore
                         .collection(getText())
-                        .where('approve', isEqualTo: true)
+                        .where('approve', isEqualTo: false)
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -259,20 +191,20 @@ class _KelolaDataState extends State<KelolaData> {
                                 margin: EdgeInsets.fromLTRB(0, 10, 10, 10),
                                 child: ListTile(
                                   onTap: () {
-                                    showModalBottomSheet(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              topRight: Radius.circular(20)),
-                                        ),
-                                        isScrollControlled: true,
-                                        context: context,
-                                        builder: (context) => BottomSheet2(
-                                            isi: data[index].id,
-                                            tgl: (data[index].data() as Map<
-                                                String, dynamic>)['tanggal']));
-                                    print((data[index].data()
-                                        as Map<String, dynamic>)['tanggal']);
+                                    // showModalBottomSheet(
+                                    //     shape: RoundedRectangleBorder(
+                                    //       borderRadius: BorderRadius.only(
+                                    //           topLeft: Radius.circular(20),
+                                    //           topRight: Radius.circular(20)),
+                                    //     ),
+                                    //     isScrollControlled: true,
+                                    //     context: context,
+                                    //     builder: (context) => BottomSheet2(
+                                    //         isi: data[index].id,
+                                    //         tgl: (data[index].data() as Map<
+                                    //             String, dynamic>)['tanggal']));
+                                    // print((data[index].data()
+                                    //     as Map<String, dynamic>)['tanggal']);
                                   },
                                   title: Container(
                                       margin: EdgeInsets.only(bottom: 5),
@@ -299,7 +231,8 @@ class _KelolaDataState extends State<KelolaData> {
                                     ],
                                   ),
                                   trailing: IconButton(
-                                    icon: Icon(Icons.delete, color: Colors.red),
+                                    icon: Icon(Icons.approval_outlined,
+                                        color: Colors.grey),
                                     onPressed: () {
                                       DocumentReference docRef = firestore
                                           .collection((data[index].data()
@@ -311,9 +244,9 @@ class _KelolaDataState extends State<KelolaData> {
                                             context: context,
                                             builder: (BuildContext context) {
                                               return AlertDialog(
-                                                title: Text('Hapus Data'),
+                                                title: Text('Konfirmasi Data'),
                                                 content: Text(
-                                                    'Apakah anda yakin untuk menghapus data ini?'),
+                                                    'Apakah anda yakin untuk menyetujui data ini?'),
                                                 actions: [
                                                   TextButton(
                                                       onPressed: () {
@@ -323,7 +256,8 @@ class _KelolaDataState extends State<KelolaData> {
                                                       child: Text('Tidak')),
                                                   TextButton(
                                                       onPressed: () async {
-                                                        await docRef.delete();
+                                                        await docRef.update(
+                                                            {'approve': true});
                                                         Navigator.of(context)
                                                             .pop();
                                                       },
@@ -348,24 +282,6 @@ class _KelolaDataState extends State<KelolaData> {
                     }),
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   child: Icon(Icons.add),
-        //   onPressed: () {
-        //     showModalBottomSheet(
-        //         shape: RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.only(
-        //               topLeft: Radius.circular(20),
-        //               topRight: Radius.circular(20)),
-        //         ),
-        //         isScrollControlled: true,
-        //         context: context,
-        //         builder: (context) => BottomSheet1(
-        //               tgl: getText(),
-        //             ));
-        //     print(getText());
-        //   },
-        //   backgroundColor: Colors.green[800],
-        // ),
       ),
     );
   }

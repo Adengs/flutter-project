@@ -27,7 +27,7 @@ class _BottomSheet2State extends State<BottomSheet2> {
 
   String getText() {
     if (tanggal == null) {
-      return "Pilih Tanggal";
+      return widget.tgl;
     } else {
       return DateFormat('dd-MM-yyyy').format(tanggal!);
     }
@@ -41,18 +41,25 @@ class _BottomSheet2State extends State<BottomSheet2> {
 
     namaController.text = (data.data() as Map<String, dynamic>)['nama'];
     nikController.text = (data.data() as Map<String, dynamic>)['nik'];
+    tanggalController.text = (data.data() as Map<String, dynamic>)['tanggal'];
     desaController.text = (data.data() as Map<String, dynamic>)['desa'];
   }
 
   Future<void> editD() async {
-    DocumentReference docData =
+    DocumentReference docData = firestore
+        .collection(getText())
+        .doc(namaController.text + nikController.text);
+    DocumentReference docRef2 =
         firestore.collection(widget.tgl).doc(widget.isi);
     try {
-      await docData.update({
+      await docData.set({
         'nik': nikController.text,
         'nama': namaController.text,
+        'tanggal': getText(),
         'desa': desaController.text,
+        'approve': true,
       });
+      docRef2.delete();
       Navigator.of(context).pop();
 
       showDialog(
@@ -127,6 +134,7 @@ class _BottomSheet2State extends State<BottomSheet2> {
                     flex: 4,
                     child: Theme(
                         child: TextFormField(
+                          readOnly: true,
                           keyboardType: TextInputType.visiblePassword,
                           controller: nikController,
                           decoration: InputDecoration(
@@ -161,10 +169,77 @@ class _BottomSheet2State extends State<BottomSheet2> {
                     flex: 4,
                     child: Theme(
                         child: TextFormField(
+                          readOnly: true,
                           textCapitalization: TextCapitalization.characters,
                           controller: namaController,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(10),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                        data: ThemeData().copyWith(
+                          colorScheme: ThemeData()
+                              .colorScheme
+                              .copyWith(primary: Colors.green[800]),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(20, 5, 20, 2),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      "Tanggal",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Theme(
+                        child: TextFormField(
+                          // controller: tanggalController,
+                          onTap: () {
+                            DateTime now = DateTime.now();
+                            showDatePicker(
+                              context: context,
+                              locale: const Locale("id", "ID"),
+                              initialDate: now,
+                              firstDate: now.add(
+                                const Duration(
+                                  days: 0,
+                                ),
+                              ),
+                              lastDate: now.add(const Duration(
+                                days: 60,
+                              )),
+
+                              // selectableDayPredicate:
+                              //     (DateTime val) =>
+                              //         val.weekday == 6 ||
+                              //                 val.weekday == 7
+                              //             ? false
+                              //             : true,
+                            ).then((value) {
+                              setState(() {
+                                tanggal = value!;
+                              });
+                            });
+                          },
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(
+                              Icons.date_range_outlined,
+                            ),
+                            contentPadding: EdgeInsets.all(10),
+                            hintText: getText(),
+                            hintStyle: TextStyle(fontSize: 13),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -195,6 +270,7 @@ class _BottomSheet2State extends State<BottomSheet2> {
                     flex: 4,
                     child: Theme(
                         child: TextFormField(
+                          readOnly: true,
                           textCapitalization: TextCapitalization.words,
                           controller: desaController,
                           decoration: InputDecoration(

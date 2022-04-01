@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ektp/cek_jadwal.dart';
 
 class PilihJadwal extends StatefulWidget {
   @override
@@ -344,30 +345,61 @@ class _PilihJadwalState extends State<PilihJadwal> {
                           child: ElevatedButton(
                             child: Text("Simpan"),
                             onPressed: () async {
-                              int docMax = await maxDoc();
+                              // int docMax = await maxDoc();
                               if (_formKey.currentState!.validate()) {
                                 try {
-                                  if (docMax < 15) {
-                                    await firestore
-                                        .collection(getText())
-                                        .doc(namaController.text +
-                                            nikController.text)
-                                        .set(
-                                      {
-                                        'nik': nikController.text,
-                                        'nama': namaController.text,
-                                        'tanggal': getText(),
-                                        'desa': desaController.text,
-                                      },
-                                    );
-                                  } else if (docMax >= 17) {
-                                    show2();
-                                  } else {
-                                    show();
-                                  }
-                                } catch (e) {
-                                  print(e);
-                                }
+                                  await firestore
+                                      .collection(getText())
+                                      .doc(namaController.text +
+                                          nikController.text)
+                                      .set(
+                                    {
+                                      'nik': nikController.text,
+                                      'nama': namaController.text,
+                                      'tanggal': getText(),
+                                      'desa': desaController.text,
+                                      'approve': false,
+                                    },
+                                  );
+
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                            title: Text('Pemberitahuan !!'),
+                                            content: Text(
+                                                'Jadwal menunggu persetujuan admin, silahkan cek di menu "Cek Jadwal Saya" untuk melihat jadwal anda.'),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () async {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('Oke')),
+                                            ]);
+                                      });
+                                } catch (e) {}
+                                // try {
+                                //   if (docMax < 15) {
+                                //     await firestore
+                                //         .collection(getText())
+                                //         .doc(namaController.text +
+                                //             nikController.text)
+                                //         .set(
+                                //       {
+                                //         'nik': nikController.text,
+                                //         'nama': namaController.text,
+                                //         'tanggal': getText(),
+                                //         'desa': desaController.text,
+                                //       },
+                                //     );
+                                //   } else if (docMax >= 17) {
+                                //     show2();
+                                //   } else {
+                                //     show();
+                                //   }
+                                // } catch (e) {
+                                //   print(e);
+                                // }
                               }
                               setState(() {
                                 FocusScope.of(context).unfocus();
@@ -387,135 +419,172 @@ class _PilihJadwalState extends State<PilihJadwal> {
                 ),
               ),
             ),
-            nikController.text.isEmpty ||
-                    namaController.text.isEmpty ||
-                    getText().isEmpty ||
-                    desaController.text.isEmpty
-                ? Container()
-                : StreamBuilder<DocumentSnapshot>(
-                    stream: firestore
-                        .collection(getText())
-                        .doc(namaController.text + nikController.text)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        var data = snapshot.data!.data();
-                        return data == null
-                            ? Container()
-                            : Card(
-                                margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
-                                elevation: 5,
-                                shadowColor: Colors.black,
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(20, 20, 20, 15),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(color: Colors.black),
-                                    ),
-                                    padding: EdgeInsets.all(10),
-                                    child: Column(children: <Widget>[
-                                      Text(
-                                        "JADWAL PEREKAMAN E-KTP",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Divider(),
-                                      Table(
-                                        columnWidths: {
-                                          0: FlexColumnWidth(2),
-                                          1: FlexColumnWidth(2),
-                                          2: FlexColumnWidth(1),
-                                          3: FlexColumnWidth(4),
-                                        },
-                                        children: [
-                                          TableRow(children: [
-                                            TableCell(child: Text(" ")),
-                                            TableCell(child: Text("Nama")),
-                                            TableCell(child: Text(":")),
-                                            TableCell(
-                                                child: Text(
-                                                    "${(data as Map<String, dynamic>)['nama']}")),
-                                            TableCell(child: Text(" ")),
-                                          ]),
-                                          TableRow(children: [
-                                            TableCell(child: Text(" ")),
-                                            TableCell(child: Text("NIK")),
-                                            TableCell(child: Text(":")),
-                                            TableCell(
-                                              child: Text(
-                                                "${data['nik']}",
-                                                maxLines: 1,
-                                              ),
-                                            ),
-                                            TableCell(child: Text(" ")),
-                                          ]),
-                                          TableRow(children: [
-                                            TableCell(child: Text(" ")),
-                                            TableCell(child: Text("Tanggal")),
-                                            TableCell(child: Text(":")),
-                                            TableCell(
-                                                child: Text(
-                                                    "${data['tanggal']}",
-                                                    maxLines: 1)),
-                                            TableCell(child: Text(" ")),
-                                          ]),
-                                          TableRow(children: [
-                                            TableCell(child: Text(" ")),
-                                            TableCell(child: Text("Desa")),
-                                            TableCell(child: Text(":")),
-                                            TableCell(
-                                                child: Text("${data['desa']}")),
-                                            TableCell(child: Text(" ")),
-                                          ]),
-                                        ],
-                                      ),
-                                      Divider(),
-                                      Text(
-                                        "Silahkan screenshot halaman ini sebagai bukti untuk ditunjukan ke petugas.",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                        ),
-                                      ),
-                                      Divider(),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "PENTING !! ",
-                                          ),
-                                          Text(
-                                            "Datang sebelum pukul 07.30 agar dapat cepat di proses,",
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                          Text(
-                                            "karena sewaktu-waktu server pusat (Kabupaten) bisa offline.",
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                          Text(
-                                            "Dan jangan lupa lengkapi persyaratan perekaman E-KTP.",
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ]),
-                                  ),
-                                ),
-                              );
-                      } else {
-                        return Text('Loading . . .',
-                            textAlign: TextAlign.center);
-                      }
-                    }),
+
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return CekJadwal();
+                  }));
+                  setState(() {
+                    FocusScope.of(context).unfocus();
+                  });
+                },
+                child: Card(
+                  margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                  elevation: 5,
+                  shadowColor: Colors.black,
+                  color: Colors.green[800],
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                    // child: SizedBox(
+                    //   height: MediaQuery.of(context).size.height * 0.02,
+                    child: Center(
+                      child: Text(
+                        'Cek Jadwal Saya',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          // fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    // ),
+                  ),
+                ),
+              ),
+            ),
+
+            // nikController.text.isEmpty ||
+            //         namaController.text.isEmpty ||
+            //         getText().isEmpty ||
+            //         desaController.text.isEmpty
+            //     ? Container()
+            //     : StreamBuilder<DocumentSnapshot>(
+            //         stream: firestore
+            //             .collection(getText())
+            //             .doc(namaController.text + nikController.text)
+            //             .snapshots(),
+            //         builder: (context, snapshot) {
+            //           if (snapshot.hasData) {
+            //             var data = snapshot.data!.data();
+            //             return data == null
+            //                 ? Container()
+            //                 : Card(
+            //                     margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+            //                     elevation: 5,
+            //                     shadowColor: Colors.black,
+            //                     child: Container(
+            //                       padding: EdgeInsets.fromLTRB(20, 20, 20, 15),
+            //                       child: Container(
+            //                         decoration: BoxDecoration(
+            //                           borderRadius: BorderRadius.circular(5),
+            //                           border: Border.all(color: Colors.black),
+            //                         ),
+            //                         padding: EdgeInsets.all(10),
+            //                         child: Column(children: <Widget>[
+            //                           Text(
+            //                             "JADWAL PEREKAMAN E-KTP",
+            //                             textAlign: TextAlign.center,
+            //                             style: TextStyle(
+            //                                 fontWeight: FontWeight.bold),
+            //                           ),
+            //                           Divider(),
+            //                           Table(
+            //                             columnWidths: {
+            //                               0: FlexColumnWidth(2),
+            //                               1: FlexColumnWidth(2),
+            //                               2: FlexColumnWidth(1),
+            //                               3: FlexColumnWidth(4),
+            //                             },
+            //                             children: [
+            //                               TableRow(children: [
+            //                                 TableCell(child: Text(" ")),
+            //                                 TableCell(child: Text("Nama")),
+            //                                 TableCell(child: Text(":")),
+            //                                 TableCell(
+            //                                     child: Text(
+            //                                         "${(data as Map<String, dynamic>)['nama']}")),
+            //                                 TableCell(child: Text(" ")),
+            //                               ]),
+            //                               TableRow(children: [
+            //                                 TableCell(child: Text(" ")),
+            //                                 TableCell(child: Text("NIK")),
+            //                                 TableCell(child: Text(":")),
+            //                                 TableCell(
+            //                                   child: Text(
+            //                                     "${data['nik']}",
+            //                                     maxLines: 1,
+            //                                   ),
+            //                                 ),
+            //                                 TableCell(child: Text(" ")),
+            //                               ]),
+            //                               TableRow(children: [
+            //                                 TableCell(child: Text(" ")),
+            //                                 TableCell(child: Text("Tanggal")),
+            //                                 TableCell(child: Text(":")),
+            //                                 TableCell(
+            //                                     child: Text(
+            //                                         "${data['tanggal']}",
+            //                                         maxLines: 1)),
+            //                                 TableCell(child: Text(" ")),
+            //                               ]),
+            //                               TableRow(children: [
+            //                                 TableCell(child: Text(" ")),
+            //                                 TableCell(child: Text("Desa")),
+            //                                 TableCell(child: Text(":")),
+            //                                 TableCell(
+            //                                     child: Text("${data['desa']}")),
+            //                                 TableCell(child: Text(" ")),
+            //                               ]),
+            //                             ],
+            //                           ),
+            //                           Divider(),
+            //                           Text(
+            //                             "Silahkan screenshot halaman ini sebagai bukti untuk ditunjukan ke petugas.",
+            //                             textAlign: TextAlign.center,
+            //                             style: TextStyle(
+            //                               fontSize: 11,
+            //                             ),
+            //                           ),
+            //                           Divider(),
+            //                           Column(
+            //                             crossAxisAlignment:
+            //                                 CrossAxisAlignment.start,
+            //                             children: [
+            //                               Text(
+            //                                 "PENTING !! ",
+            //                               ),
+            //                               Text(
+            //                                 "Datang sebelum pukul 07.30 agar dapat cepat di proses,",
+            //                                 style: TextStyle(
+            //                                   fontSize: 10,
+            //                                 ),
+            //                               ),
+            //                               Text(
+            //                                 "karena sewaktu-waktu server pusat (Kabupaten) bisa offline.",
+            //                                 style: TextStyle(
+            //                                   fontSize: 10,
+            //                                 ),
+            //                               ),
+            //                               Text(
+            //                                 "Dan jangan lupa lengkapi persyaratan perekaman E-KTP.",
+            //                                 style: TextStyle(
+            //                                   fontSize: 10,
+            //                                 ),
+            //                               ),
+            //                             ],
+            //                           ),
+            //                         ]),
+            //                       ),
+            //                     ),
+            //                   );
+            //           } else {
+            //             return Text('Loading . . .',
+            //                 textAlign: TextAlign.center);
+            //           }
+            //         }),
           ],
         ),
       ),
